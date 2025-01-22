@@ -10,7 +10,7 @@ import MapKit
 import PhotosUI
 
 struct NewLocationView: View {
-    
+    @Environment(\.router) var router
     @StateObject private var vm = NewLocationViewModel()
     let coordinates: CLLocationCoordinate2D
     
@@ -39,6 +39,7 @@ struct NewLocationView: View {
         .overlay(alignment: .topTrailing) {
             doneButton
         }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -109,7 +110,7 @@ extension NewLocationView {
     
     private var backButton: some View {
         Button {
-            
+            router.dismissScreen()
         } label: {
             Image(systemName: "chevron.left")
                 .font(.headline)
@@ -126,7 +127,7 @@ extension NewLocationView {
     
     private var doneButton: some View {
         Button {
-            
+            router.dismissScreenStack()
         } label: {
             Image(systemName: "plus")
                 .font(.title3)

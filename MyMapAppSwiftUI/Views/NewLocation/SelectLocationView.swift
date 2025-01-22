@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 
 struct SelectLocationView: View {
+    @Environment(\.router) var router
     private let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     @State private var coordinates: CLLocationCoordinate2D?
     @State private var position: MapCameraPosition = MapCameraPosition.automatic
@@ -21,6 +22,7 @@ struct SelectLocationView: View {
             .overlay(alignment: .topTrailing) {
                 nextButton
             }
+            .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -62,7 +64,7 @@ extension SelectLocationView {
     
     private var backButton: some View {
         Button {
-            
+            router.dismissScreen()
         } label: {
             Image(systemName: "chevron.left")
                 .font(.headline)
@@ -79,7 +81,9 @@ extension SelectLocationView {
     
     private var nextButton: some View {
         Button {
-            
+            router.showScreen(.push) { _ in
+                NewLocationView(coordinates: coordinates!)
+            }
         } label: {
             Text("Next")
                 .foregroundStyle(.white)
@@ -88,10 +92,15 @@ extension SelectLocationView {
                 .frame(height: 55)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(.primary)
+                        .fill(nextButtonStatus ? .primary : .secondary)
                 }
                 .shadow(radius: 10)
                 .padding()
         }
+        .allowsHitTesting(nextButtonStatus)
+    }
+    
+    private var nextButtonStatus: Bool {
+        coordinates != nil
     }
 }

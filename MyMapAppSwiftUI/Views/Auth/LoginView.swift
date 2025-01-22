@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftfulRouting
 
 struct LoginView: View {
+    @Environment(\.router) var router
     @EnvironmentObject private var authViewModel: AuthViewModel
     
     @State private var email: String = ""
@@ -49,11 +51,15 @@ struct LoginView: View {
                     .shadow(radius: 10)
             }
             
-            
+            Button {
+                router.showScreen(.push) { _ in
+                    RegisterView()
+                }
+            } label: {
                 Text("Register")
                     .fontWeight(.semibold)
                     .frame(height: 55)
-            
+            }
         }
         .padding()
     }

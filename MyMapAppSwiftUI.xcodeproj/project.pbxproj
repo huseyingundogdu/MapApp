@@ -21,6 +21,7 @@
 		1DFF03D72CB2A00B0097584D /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF03D62CB2A00B0097584D /* LocationDetailView.swift */; };
 		F0638CDC2D40777F003525AD /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0638CDB2D40777F003525AD /* Router.swift */; };
 		F0638CDE2D408AA4003525AD /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0638CDD2D408AA4003525AD /* AuthViewModel.swift */; };
+		F0638CE12D4093F2003525AD /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = F0638CE02D4093F2003525AD /* SwiftfulRouting */; };
 		F06D7F122D4018E500DAF690 /* NewLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06D7F112D4018E500DAF690 /* NewLocationView.swift */; };
 		F06D7F142D40203100DAF690 /* SelectLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06D7F132D40203100DAF690 /* SelectLocationView.swift */; };
 		F06D7F162D40395E00DAF690 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06D7F152D40395E00DAF690 /* NewLocationViewModel.swift */; };
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0638CE12D4093F2003525AD /* SwiftfulRouting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +186,9 @@
 			dependencies = (
 			);
 			name = MyMapAppSwiftUI;
+			packageProductDependencies = (
+				F0638CE02D4093F2003525AD /* SwiftfulRouting */,
+			);
 			productName = MyMapAppSwiftUI;
 			productReference = 1D111B1A2CAD7D7100CD860D /* MyMapAppSwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -212,6 +217,9 @@
 				Base,
 			);
 			mainGroup = 1D111B112CAD7D7100CD860D;
+			packageReferences = (
+				F0638CDF2D4093F2003525AD /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
+			);
 			productRefGroup = 1D111B1B2CAD7D7100CD860D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -460,6 +468,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F0638CDF2D4093F2003525AD /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F0638CE02D4093F2003525AD /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0638CDF2D4093F2003525AD /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D111B122CAD7D7100CD860D /* Project object */;
 }

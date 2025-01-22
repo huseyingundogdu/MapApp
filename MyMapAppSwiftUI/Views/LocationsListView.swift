@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LocationsListView: View {
+    @Environment(\.router) var router
     @EnvironmentObject private var vm: LocationsViewModel
     @EnvironmentObject private var authVM: AuthViewModel
     
@@ -29,7 +30,9 @@ struct LocationsListView: View {
         
         HStack {
             Button {
-                
+                router.showScreen(.push) { _ in
+                    SelectLocationView()
+                }
             } label: {
                 Text("New")
                     .foregroundStyle(.white)
