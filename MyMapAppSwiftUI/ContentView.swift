@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftfulRouting
+import FirebaseAuth
 
 struct ContentView: View {
     @EnvironmentObject private var authViewModel: AuthViewModel
@@ -16,6 +17,7 @@ struct ContentView: View {
             if authViewModel.isAuthenticated {
                 LocationsView()
                     .environmentObject(authViewModel)
+
             } else {
                 LoginView()
                     .environmentObject(authViewModel)

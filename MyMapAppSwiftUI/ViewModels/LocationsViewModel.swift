@@ -8,9 +8,14 @@
 import Foundation
 import MapKit
 import SwiftUI
+import FirebaseFirestore
+import FirebaseAuth
 
 class LocationsViewModel: ObservableObject {
-    @Published var locations: [Location]
+    
+    private let db = Firestore.firestore()
+    
+    @Published var locations: [Location] = []
     @Published var selectedLocation: Location? {
         didSet {
             if let location = selectedLocation {
@@ -26,16 +31,12 @@ class LocationsViewModel: ObservableObject {
     
     let span = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
     
-    init() {
-        let locations = LocalDataService.locations
-        self.locations = locations
-    }
     
     
     private func updateMapCameraPosition(location: Location) {
         withAnimation(.easeInOut) {
             position = .region(MKCoordinateRegion(
-                center: location.coordinates,
+                center: location.coordinates.coordinate,
                 span: span))
         }
     }
@@ -68,5 +69,32 @@ class LocationsViewModel: ObservableObject {
         }
         let nextLocation = locations[nextIndex]
         showSelectedLocation(location: nextLocation)
+    }
+    
+    func getLocations() {
+        locations = []
+        if let user = Auth.auth().currentUser {
+            db.collection("users").document(user.uid).collection("locations").getDocuments { snapshot, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                let locations = snapshot?.documents.compactMap { document -> Location? in
+                    try? document.data(as: Location.self)
+                } ?? []
+                
+                self.locations = locations
+                print(self.locations)
+            }
+        }
+    }
+    
+    func resetTheFetchedDatas() {
+        locations = []
+        selectedLocation = nil
+        position = .automatic
+        isShowingLocationsList = false
+        sheetLocation = nil
     }
 }

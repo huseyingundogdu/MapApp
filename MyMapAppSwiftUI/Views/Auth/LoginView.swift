@@ -39,7 +39,7 @@ struct LoginView: View {
                 }
             
             Button {
-                authViewModel.isAuthenticated = true
+                authViewModel.login(email: email, password: password)
             } label: {
                 Text("Login")
                     .foregroundStyle(.white)

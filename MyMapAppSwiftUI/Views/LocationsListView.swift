@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LocationsListView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.router) var router
     @EnvironmentObject private var vm: LocationsViewModel
     @EnvironmentObject private var authVM: AuthViewModel
@@ -22,14 +23,12 @@ struct LocationsListView: View {
                 }
                 .listRowBackground(Color.clear)
             }
-            
-            
-            
         }
         .listStyle(.plain)
         
         HStack {
             Button {
+                vm.isShowingLocationsList = false
                 router.showScreen(.push) { _ in
                     SelectLocationView()
                 }
@@ -47,7 +46,8 @@ struct LocationsListView: View {
             Button {
                 withAnimation(.linear) {
                     vm.isShowingLocationsList = false
-                    authVM.isAuthenticated = false
+                    authVM.logout()
+                    vm.resetTheFetchedDatas()
                 }
             } label: {
                 Image(systemName: "power")
@@ -73,10 +73,17 @@ extension LocationsListView {
     private func listRowView(location: Location) -> some View {
         HStack {
             if let imageName = location.imageNames.first {
-                Image(imageName)
-                    .resizable()
-                    .frame(width: 45, height: 45)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                AsyncImage(url: URL(string: imageName)) { image in
+                    image
+                        .resizable()
+                } placeholder: {
+                    ProgressView()
+                        .tint(.white)
+                }
+                .frame(width: 45, height: 45)
+                .background(Color.primary)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+
             }
             VStack(alignment: .leading) {
                 Text(location.name)

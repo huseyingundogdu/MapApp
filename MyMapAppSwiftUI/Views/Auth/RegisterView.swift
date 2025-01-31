@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
     @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject private var authVM: AuthViewModel
     @State private var email: String = ""
     @State private var password: String = ""
     
@@ -37,7 +37,8 @@ struct RegisterView: View {
                 }
             
             Button("Register") {
-                
+                authVM.register(email: email, password: password)
+                dismiss()
             }
             .foregroundStyle(.white)
             .fontWeight(.semibold)

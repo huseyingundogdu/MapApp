@@ -8,14 +8,14 @@
 import Foundation
 import MapKit
 
-struct Location: Identifiable, Equatable {
+struct Location: Identifiable, Equatable, Codable {
     
     var id: String {
         name + cityName
     }
     let name: String
     let cityName: String
-    let coordinates: CLLocationCoordinate2D
+    let coordinates: Coordinates
     let description: String
     let imageNames: [String]
     let link: String
@@ -25,14 +25,16 @@ struct Location: Identifiable, Equatable {
     }
 }
 
-
-extension CLLocationCoordinate2D: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(latitude)
-        hasher.combine(longitude)
+struct Coordinates: Codable {
+    let latitude: Double
+    let longitude: Double
+    
+    init(from coordinate: CLLocationCoordinate2D) {
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
     }
-
-    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }

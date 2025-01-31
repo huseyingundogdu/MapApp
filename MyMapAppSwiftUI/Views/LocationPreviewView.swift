@@ -46,12 +46,23 @@ struct LocationPreviewView: View {
 extension LocationPreviewView {
     private var imageSection: some View {
         ZStack {
-            if let imageName = location.imageNames.first {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            if let firstImage = location.imageNames.first {
+                AsyncImage(url: URL(string: firstImage)) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    ProgressView()
+                        .tint(.white)
+                }
+                .frame(width: 100, height: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+
+//                Image(imageName)
+//                    .resizable()
+//                    .scaledToFill()
+//                    .frame(width: 100, height: 100)
+//                    .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
         .padding(8)

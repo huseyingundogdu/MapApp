@@ -127,7 +127,12 @@ extension NewLocationView {
     
     private var doneButton: some View {
         Button {
-            router.dismissScreenStack()
+            Task {
+                await vm.createNewLocation(coordinates: Coordinates(from: coordinates))
+                if !vm.isLoading {
+                    router.dismissScreenStack()
+                }
+            }
         } label: {
             Image(systemName: "plus")
                 .font(.title3)

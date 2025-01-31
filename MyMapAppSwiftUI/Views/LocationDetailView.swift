@@ -47,11 +47,15 @@ extension LocationDetailView {
     private var imageSection: some View {
         TabView {
             ForEach(location.imageNames, id: \.self) { image in
-                Image(image)
-                    .resizable()
-                    .scaledToFill()
-                    .containerRelativeFrame(.horizontal)
-                    .clipped()
+                AsyncImage(url: URL(string: image)) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    ProgressView()
+                }
+                .containerRelativeFrame(.horizontal)
+                .clipped()
             }
         }
         .frame(height: 500)
@@ -74,20 +78,14 @@ extension LocationDetailView {
             Text(location.description)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            
-            if let url = URL(string: location.link) {
-                Link("Read more on Wikipedia", destination: url)
-                    .font(.headline)
-                    .tint(.blue)
-            }
         }
     }
     
     private var mapSection: some View {
         Map(position: .constant(MapCameraPosition.region(MKCoordinateRegion(
-            center: location.coordinates,
+            center: location.coordinates.coordinate,
             span: vm.span)))) {
-            Annotation(location.name, coordinate: location.coordinates) {
+                Annotation(location.name, coordinate: location.coordinates.coordinate) {
                 LocationMapAnnotationView()
                     .shadow(radius: 10)
             }
